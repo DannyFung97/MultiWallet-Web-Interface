@@ -6,17 +6,16 @@ class WalletComponent extends Component {
     constructor(props) {
         super(props);
         let wal;
-        let inputMnemonic = undefined;
-        let generatedMnemonic = undefined;
+        let mnemonic = undefined;
         this.state = {
             wallet: undefined,
             mnemonic: '',
-            floExplorer: wal.networks.flo.explorer,
+            floExplorer: undefined,
 
         };
 
-        this.fetchWalletFromMnemonic = this.fetchWalletFromMnemonic.bind(this);
-        this.createWalletFromMnemonic = this.createWalletFromMnemonic.bind(this);
+        this.getWalletFromMnemonic = this.getWalletFromMnemonic.bind(this);
+        this.createNewWallet = this.createNewWallet.bind(this);
     }
 
     componentDidMount() {
@@ -33,12 +32,8 @@ class WalletComponent extends Component {
         }
     }
 
-    createWalletFromMnemonic() {
-        this.wal = new Wallet({
-            discover: false,
-            supported_coins: ['bitcoin', 'litecoin', 'flo', 'flo_testnet']
-        })
-        this.mnemonic = this.wal.getMnenomic();
+    createNewWallet() {
+        this.wal = new Wallet();
         this.setState({ wallet: this.wal, mnemonic: this.wal.getMnenomic() });
     }
 
@@ -67,7 +62,7 @@ class WalletComponent extends Component {
                     <label>
                         <input type="text" inputMnemonic={this.inputMnemonic} onChange={this.handleInputMnemonicChange} placeholder={"Enter your mnemonic"} />
                     </label>
-                    <button className="btn generateMnemonic" onClick={this.createWalletFromMnemonic()}/>
+                    <button className="btn generateMnemonic" onClick={this.createNewWallet()}/>
                 </div>
             </div>
         );
